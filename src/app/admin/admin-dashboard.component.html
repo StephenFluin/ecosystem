@@ -1,0 +1,23 @@
+<style>
+  input {
+    display: block;
+  }
+</style>
+<h2>Curated Components</h2>
+<div *ngIf="currentComponent">
+  <h3><button (click)="currentComponent=null">&lt;</button> Edit Component</h3>
+  <input [(ngModel)]="currentComponent.name" placeholder="name">
+  <input [(ngModel)]="currentComponent.description" placeholder="description">
+  <input [(ngModel)]="currentComponent.package" placeholder="package">
+  <input [(ngModel)]="currentComponent.ngAdd" placeholder="ngAdd">
+  <input [(ngModel)]="currentComponent.ngUpdate" placeholder="ngUpdate">
+  <input [(ngModel)]="currentComponent.accessible" placeholder="accessible">
+  <input [(ngModel)]="currentComponent.bundleSize" placeholder="bundleSize">
+  <button (click)="save(currentComponent)">Save</button>
+</div>
+<div *ngIf="!currentComponent">
+  <p>Currently have {{ components.length }} components.</p>
+  <div><button (click)="currentComponent = {}">New</button></div>
+
+  <div *ngFor="let component of components | async" (click)="currentComponent = component">{{component.name}}</div>
+</div>

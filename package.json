@@ -8,7 +8,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "serve": "concurrently \"ng build --watch\" \"tsc --watch -p server/tsconfig.json\" \"nodemon server/dist/main.js\"",
+    "serve": "concurrently \"ng build --aot --watch\" \"tsc --watch -p server/tsconfig.json\" \"nodemon server/dist/main.js\"",
     "compile:server": "webpack --config webpack.server.config.js --progress --colors",
     "serve:ssr": "node dist/server",
     "build:ssr": "npm run build:client-and-server-bundles && npm run compile:server",
@@ -37,6 +37,7 @@
     "nodemon": "^1.18.10",
     "reflect-metadata": "^0.1.13",
     "rxjs": "~6.4.0",
+    "sql-template-strings": "^2.2.2",
     "sqlite": "^3.0.3",
     "tslib": "^1.9.0",
     "zone.js": "~0.9.0"

@@ -1,20 +1,39 @@
 import { Injectable } from '@angular/core';
 import { SearchResults, SearchResult } from './search.component';
+import { HttpClient } from '@angular/common/http';
+import { Observable, BehaviorSubject } from 'rxjs';
+import { switchMap, map, shareReplay } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class Data {
-  curatedComponents: SearchResult[] = [
-    {name: 'Angular Material Button', package: '@angular/material', ngAdd: 'ng add @angular/material', ngUpdate: true, accessible: true, description: 'Angular Material Button', bundleSize: null},
-    {name: 'CDK Table', package: '@angular/cdk', ngAdd: null, ngUpdate: true, accessible: true, description: 'Angular CDK Data Table', bundleSize: null},
-  ]
+  components: Observable<SearchResult[]>;
+  refresh = new BehaviorSubject([]);
 
-  constructor() { }
-  search(query: string): SearchResults {
+  constructor(private http: HttpClient) {
+    this.components = this.refresh.pipe(switchMap(() => http.get<SearchResult[]>('/api/components')), shareReplay(1));
+  }
+
+  search(query: string): Observable<SearchResults> {
     const regex = new RegExp(query, 'i');
-    const clientSearch = this.curatedComponents.filter(item => item.name.search(regex) !== -1 || item.description.search(regex) !== -1);
-    return { query: query, results: clientSearch };
+    return this.components.pipe(
+      map(list => {
+        let searchResults: SearchResults = {
+          query: query,
+          results: list.filter(item => item.name.search(regex) !== -1 || item.description.search(regex) !== -1),
+        };
+        return searchResults;
+      }
+      )
+    );
+  }
+
+  saveComponent(component) {
+    this.http.put(`/api/components/${component.id}`, component).subscribe(() => { });
+  }
+  createComponent(component) {
+    this.http.post('/api/components', component).subscribe(() => { });
   }
 
 }

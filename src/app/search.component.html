@@ -1,4 +1,4 @@
 <div>
   <input type="search" placeholder="eg button" (keyup.enter)="search(query.value)" #query><button type="submit" (click)="search(query.value)">Search</button>
 </div>
-<app-grid *ngIf="results" [results]="results"></app-grid>
+<app-grid *ngIf="results" [results]="results | async"></app-grid>

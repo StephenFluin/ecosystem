@@ -14,15 +14,11 @@ var DatabaseConnection = /** @class */ (function () {
         var dbPromise = sqlite.open('ecosystem.sqlite');
         dbPromise.then(function (db) {
             _this.db = db;
-            _this.db.run("CREATE TABLE IF NOT EXISTS component (\n                name TEXT, \n                description TEXT,\n                package TEXT,\n                bundleSize TEXT,\n                accessible TEXT, \n                ngAdd TEXT,\n                ngUpdate TEXT\n                )");
+            _this.db.run("CREATE TABLE IF NOT EXISTS component (\n                id INTEGER PRIMARY KEY,\n                name TEXT, \n                description TEXT,\n                package TEXT,\n                bundleSize TEXT,\n                accessible TEXT, \n                ngAdd TEXT,\n                ngUpdate TEXT\n                )");
         });
     }
     DatabaseConnection.prototype.query = function (statement) {
-        var args = [];
-        for (var _i = 1; _i < arguments.length; _i++) {
-            args[_i - 1] = arguments[_i];
-        }
-        return this.db.all(statement, args);
+        return this.db.all(statement);
     };
     return DatabaseConnection;
 }());

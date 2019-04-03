@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Data } from './data.service';
+import { Observable } from 'rxjs';
 
 
 export interface SearchResult {
@@ -23,7 +24,7 @@ export interface SearchResults {
   styles: []
 })
 export class SearchComponent {
-  results: SearchResults;
+  results: Observable<SearchResults>;
 
   constructor(private data: Data) { }
 

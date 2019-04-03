@@ -7,6 +7,7 @@ import { AboutComponent } from './about.component';
 import { DetailsComponent } from './details.component';
 import { GridComponent } from './grid.component';
 import { RouterModule } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -22,8 +23,10 @@ import { RouterModule } from '@angular/router';
       {path: '', component: SearchComponent},
       {path: 'about', component: AboutComponent},
       {path: ':id/', component: DetailsComponent},
+      {path: 'admin', loadChildren: './admin/admin.module#AdminModule'},
       {path: '**', redirectTo: '/'},
     ]),
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
