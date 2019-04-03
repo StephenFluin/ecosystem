@@ -1,0 +1,4 @@
+<div>Results for: <strong>{{results.query}}</strong></div>
+<table>
+  <tr *ngFor="let results of results.results"><td>{{results | json}}</td></tr>
+</table>

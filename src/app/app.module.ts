@@ -1,16 +1,29 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
-import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { SearchComponent } from './search.component';
+import { AboutComponent } from './about.component';
+import { DetailsComponent } from './details.component';
+import { GridComponent } from './grid.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    SearchComponent,
+    AboutComponent,
+    DetailsComponent,
+    GridComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
-    AppRoutingModule
+    RouterModule.forRoot([
+      {path: '', component: SearchComponent},
+      {path: 'about', component: AboutComponent},
+      {path: ':id/', component: DetailsComponent},
+      {path: '**', redirectTo: '/'},
+    ]),
   ],
   providers: [],
   bootstrap: [AppComponent]
