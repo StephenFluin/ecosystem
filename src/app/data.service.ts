@@ -9,10 +9,10 @@ import { switchMap, map, shareReplay } from 'rxjs/operators';
 })
 export class Data {
   components: Observable<SearchResult[]>;
-  refresh = new BehaviorSubject([]);
+  _refresh = new BehaviorSubject(null);
 
   constructor(private http: HttpClient) {
-    this.components = this.refresh.pipe(switchMap(() => http.get<SearchResult[]>('/api/components')), shareReplay(1));
+    this.components = this._refresh.pipe(switchMap(() => http.get<SearchResult[]>('/api/components')), shareReplay(1));
   }
 
   search(query: string): Observable<SearchResults> {
@@ -30,10 +30,14 @@ export class Data {
   }
 
   saveComponent(component) {
-    this.http.put(`/api/components/${component.id}`, component).subscribe(() => { });
+    this.http.put(`/api/components/${component.id}`, component).subscribe(this.refresh);
   }
   createComponent(component) {
-    this.http.post('/api/components', component).subscribe(() => { });
+    this.http.post('/api/components', component).subscribe(this.refresh);
+  }
+
+  refresh() {
+    this._refresh.next(null);
   }
 
 }
