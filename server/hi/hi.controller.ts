@@ -3,8 +3,9 @@ import { DB } from '../data';
 
 @Controller('hi')
 export class HiController {
-    @Get()
-    findAll() {
-        return DB.query('SELECT * FROM components');
-    }
+  @Get()
+  findAll() {
+    // I had to explicitly cast this to any for some reason
+    return DB.query('SELECT * FROM components' as any);
+  }
 }
