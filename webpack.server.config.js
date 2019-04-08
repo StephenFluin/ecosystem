@@ -5,7 +5,4 @@ const WebpackConfigFactory = require('@nestjs/ng-universal')
 module.exports = WebpackConfigFactory.create(webpack, {
   // Nest server for SSR
   server: './server/main.ts',
-  target: 'node'
 });
-
-console.log('is this even on?');
