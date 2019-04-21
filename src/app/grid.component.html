@@ -9,13 +9,17 @@
     <thead>
       <tr>
       <th>Name</th>
-      <th></th>
+      <th>Description</th>
+      <th>NPM Package</th>
+      <th>Bundle Size</th>
       </tr>
 
     </thead>
     <tr *ngFor="let result of results.results">
       <td>{{result.name}}</td>
-      <td>{{ result | json }}</td>
+      <td>{{result.description}}</td>
+      <td>{{result.package}}</td>
+      <td>{{result.bundleSize}}</td>
     </tr>
   </table>
 </div>
