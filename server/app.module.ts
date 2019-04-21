@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import { AngularUniversalModule } from '@nestjs/ng-universal';
 import { join } from 'path';
 import { ComponentsController } from './components.controller';
-import { HiController } from './hi/hi.controller';
 
 @Module({
   imports: [
@@ -12,6 +11,8 @@ import { HiController } from './hi/hi.controller';
       liveReload: true,
     }),
   ],
-  controllers: [HiController, ComponentsController],
+  controllers: [
+    ComponentsController,
+  ],
 })
 export class ApplicationModule {}

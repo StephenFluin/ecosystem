@@ -9,18 +9,19 @@ import { switchMap, map, shareReplay } from 'rxjs/operators';
 })
 export class Data {
   components: Observable<SearchResult[]>;
-  _refresh = new BehaviorSubject(null);
+  refreshSubject = new BehaviorSubject(null);
 
   constructor(private http: HttpClient) {
-    this.components = this._refresh.pipe(switchMap(() => http.get<SearchResult[]>('/api/components')), shareReplay(1));
+    this.components = this.refreshSubject.pipe(switchMap(() => http.get<SearchResult[]>('/api/components')), shareReplay(1));
   }
 
   search(query: string): Observable<SearchResults> {
     const regex = new RegExp(query, 'i');
     return this.components.pipe(
       map(list => {
-        let searchResults: SearchResults = {
-          query: query,
+        console.log('searching',list);
+        const searchResults: SearchResults = {
+          query,
           results: list.filter(item => item.name.search(regex) !== -1 || item.description.search(regex) !== -1),
         };
         return searchResults;
@@ -33,11 +34,13 @@ export class Data {
     this.http.put(`/api/components/${component.id}`, component).subscribe(this.refresh);
   }
   createComponent(component) {
-    this.http.post('/api/components', component).subscribe(this.refresh);
+    this.http.post('/api/components', component).subscribe(next => {
+      this.refresh();
+    });
   }
 
   refresh() {
-    this._refresh.next(null);
+    this.refreshSubject.next(null);
   }
 
 }

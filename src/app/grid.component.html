@@ -5,10 +5,17 @@
   <div *ngIf="results.results.length === 0">
     There weren't any items matching your search.
   </div>
-  {{ results | json }}
   <table>
-    <tr *ngFor="let results of results.results">
-      <td>{{ results | json }}</td>
+    <thead>
+      <tr>
+      <th>Name</th>
+      <th></th>
+      </tr>
+
+    </thead>
+    <tr *ngFor="let result of results.results">
+      <td>{{result.name}}</td>
+      <td>{{ result | json }}</td>
     </tr>
   </table>
 </div>
