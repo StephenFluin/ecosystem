@@ -33,11 +33,22 @@ promiseExec(setup, { cwd: sandbox })
     console.log('Base JS is', size, 'bytes');
     baseSize = size;
     const patchList = enumeratePatches();
-    const tasks = patchList.map(patchFile => applyPatchAndMeasure(patchFile));
 
-    Promise.all(tasks).then(sizeResults => {
-      console.log('Finished measuring all patches.', sizeResults);
-    });
+
+    // Using async await here to ensure all of the patches are applied in sequence
+    // instead of using promise.all which would run them in parallel.
+    const executeAll = async () => {
+      const results = {};
+      for(const patchFile of patchList) {
+        const result = await applyPatchAndMeasure(patchFile);
+        results[result.patch] = result.size - baseSize;
+      }
+      return results;
+    };
+    return executeAll();
+  })
+  .then(results => {
+    console.log('Got the final sizes:',results);
   })
   .catch(err => {
     console.error('Failed during setup.', err);
@@ -94,7 +105,7 @@ function enumeratePatches(): string[] {
 }
 
 function applyPatchAndMeasure(patchName: string): Promise<{ patch: string; size: number }> {
-  console.log('Restting and applying', patchName);
+  console.log('Resetting and applying', patchName);
   return promiseExec(
     `git clean -df;
   git checkout -- .;
