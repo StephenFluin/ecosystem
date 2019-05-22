@@ -5,21 +5,47 @@
   font-family: Roboto, "Helvetica Neue", sans-serif;
   box-sizing: border-box;
 }
+$chrome-background: rgb(63, 81, 181);
+$chrome-foreground: white;
+$footer-size: 64px;
+
+a {
+  text-decoration: none;
+  color:inherit;
+}
 .title {
-  background-color: rgb(63, 81, 181);
-  color: #fff;
+  background-color: $chrome-background;
+  color: $chrome-foreground;
   height: 56px;
   font-size: 20px;
   padding: 16px;
   margin: 0;
 }
+.footer {
+  height: $footer-size;
+  background-color: $chrome-background;
+  color: $chrome-foreground;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+}
+.footer svg {
+  height:16px;
+  color:white;
+  margin:16px;
+}
 #page {
   padding: 16px;
   max-width: 750px;
-  margin: 16px auto;
+  margin: 0 auto;
   font-size: 16px;
   box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14),
     0 1px 3px 0 rgba(0, 0, 0, 0.12);
+}
+#footer-space {
+  min-height: calc( 100vh - 56px - #{$footer-size});
+  margin:0;
+  padding:16px 0;
 }
 table {
   border-collapse: collapse;
