@@ -2,22 +2,33 @@
   input {
     display: block;
   }
+  .component-list {
+    border:1px solid grey;
+  }
+  .component-list div:nth-child(odd) {
+    background-color:#CDCDCD;
+  }
+  .component-list div {
+    padding:8px;
+  }
 </style>
 <h2>Curated Components</h2>
 <div *ngIf="currentComponent">
   <h3><button (click)="currentComponent=null">&lt;</button> Edit Component</h3>
-  <input [(ngModel)]="currentComponent.name" placeholder="name">
-  <input [(ngModel)]="currentComponent.description" placeholder="description">
-  <input [(ngModel)]="currentComponent.package" placeholder="package">
-  <input [(ngModel)]="currentComponent.ngAdd" placeholder="ngAdd">
-  <input [(ngModel)]="currentComponent.ngUpdate" placeholder="ngUpdate">
-  <input [(ngModel)]="currentComponent.accessible" placeholder="accessible">
-  <input [(ngModel)]="currentComponent.bundleSize" placeholder="bundleSize">
+  <label>Name<input [(ngModel)]="currentComponent.name" placeholder="name"></label>
+  <label>Description<input [(ngModel)]="currentComponent.description" placeholder="description"></label>
+  <label>Package<input [(ngModel)]="currentComponent.package" placeholder="package"></label>
+  <label>ngAdd<input [(ngModel)]="currentComponent.ngAdd" placeholder="ngAdd"></label>
+  <label>ngUpdate<input [(ngModel)]="currentComponent.ngUpdate" placeholder="ngUpdate"></label>
+  <label>Accessible<input [(ngModel)]="currentComponent.accessible" placeholder="accessible"></label>
+  <label>BundleSize<input [(ngModel)]="currentComponent.bundleSize" placeholder="bundleSize"></label>
   <button (click)="save(currentComponent)">Save</button>
 </div>
 <div *ngIf="!currentComponent">
-  <p>Currently have {{ components.length }} components.</p>
-  <div><button (click)="currentComponent = {}">New</button></div>
-
-  <div *ngFor="let component of components | async" (click)="currentComponent = component">{{component.name}}</div>
+  <p>Currently have {{ (components | async).length }} components.</p>
+  <div style="margin:16px 0"><button (click)="currentComponent = {}">Add Component</button></div>
+  <div class="component-list">
+    <div *ngFor="let component of components | async"><a href="#"
+        (click)="currentComponent = component;$event.preventDefault()">{{component.name}}</a></div>
+  </div>
 </div>

@@ -16,7 +16,7 @@ const exec = require('child_process').exec;
 
 const sandbox = '/tmp/';
 const projectFolder = sandbox + 'ecotest';
-const patchSourceFolder = '/super/workspace/stephenfluin/ecosystem/measurement/patches/';
+const patchSourceFolder = './patches/';
 
 const setup = `rm -rf ${projectFolder}; ng new ecotest --routing --style=scss;`;
 
